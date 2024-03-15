@@ -1,0 +1,14 @@
+{
+    "Mahasiswa" : [
+        {
+            "NIM" : "21343019",
+            "Nama" : "Arafil Azmi",
+            "Prodi" : "Informatika"
+        },
+        {
+            "NIM" : "21343031",
+            "Nama" : "Arafil Azmi",
+            "Prodi" : "Informatika"
+        }
+    ]
+}
