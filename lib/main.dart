@@ -36,19 +36,20 @@ class _MyHomePageState extends State<MyHomePage> {
     return await rootBundle.loadString('database.json');
   }
 
-  Future<void> writeToLocalFile(String content) async {
+  Future<void> writeToLocalFile(String data) async {
     final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/database.json');
-    await file.writeAsString(content);
+    final file = File('${directory.path}/yay.txt');
+    await file.writeAsString(data);
   }
 
   Future<String> readFromLocalFile() async {
     try {
       final directory = await getApplicationDocumentsDirectory();
-      final file = File('${directory.path}/database.json');
-      String contents = await file.readAsString();
-      return contents;
+      final file = File('${directory.path}/yay.txt');
+      String fileContent = await file.readAsString();
+      return fileContent;
     } catch (e) {
+      print('Error reading local file: $e');
       return '';
     }
   }
@@ -101,14 +102,20 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: Text('Baca Konten File'),
             ),
-            SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
                 await writeToLocalFile('Halo dari File Lokal!');
-                String fileContent = await readFromLocalFile();
-                print('Konten File: $fileContent');
+                print('Data berhasil ditulis ke file lokal');
               },
-              child: Text('Tulis dan Baca dari File Lokal'),
+              child: Text('Tulis ke File Lokal'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () async {
+                String local = await readFromLocalFile();
+                print('Konten File: $local');
+              },
+              child: Text('Baca dari File Lokal'),
             ),
             SizedBox(height: 20),
             // JSON
@@ -130,16 +137,32 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('Konversi ke JSON Map'),
             ),
             SizedBox(height: 20),
-            // SharedPreferences
+            // SharedPreferences - Simpan Data
             ElevatedButton(
               onPressed: () async {
-                await saveToSharedPreferences('nama', 'Arafil Azmi');
-                String name = await readFromSharedPreferences('nama');
-                await saveToSharedPreferences('NIM', '21343019');
-                String nim = await readFromSharedPreferences('NIM');
-                print('Nama dari SharedPreferences: $name,$nim,');
+                try {
+                  await saveToSharedPreferences('nama', 'Arafil');
+                  await saveToSharedPreferences('NIM', '21343019');
+                  print('Data berhasil disimpan ke SharedPreferences');
+                } catch (e) {
+                  print('Gagal menyimpan data ke SharedPreferences: $e');
+                }
               },
-              child: Text('Simpan dan Baca dari SharedPreferences'),
+              child: Text('Simpan Data ke SharedPreferences'),
+            ),
+            SizedBox(height: 20),
+            // SharedPreferences - Baca Data
+            ElevatedButton(
+              onPressed: () async {
+                try {
+                  String name = await readFromSharedPreferences('nama');
+                  String nim = await readFromSharedPreferences('NIM');
+                  print('Data dari SharedPreferences: Nama: $name, NIM: $nim');
+                } catch (e) {
+                  print('Gagal membaca data dari SharedPreferences: $e');
+                }
+              },
+              child: Text('Baca Data dari SharedPreferences'),
             ),
           ],
         ),

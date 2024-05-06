@@ -93,4 +93,5 @@ flutter:
 assets:
 - assets/hallo.txt
 - assets/database.json
+- assets/yay.txt
 
